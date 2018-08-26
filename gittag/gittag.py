@@ -55,9 +55,26 @@ def get_remote_tags():
     return tags
 
 
-def sync_tags_remote_to_local():
+def sync_remote_to_local():
     local_tags = get_local_tags()
 
     delete_local_tags(local_tags.keys())
 
     run('git fetch --tags', exit=True)
+
+
+def sync_local_to_remote():
+    remote_tags = get_remote_tags()
+    local_tags = get_local_tags()
+
+    for remote_tag, remote_commit in remote_tags.items():
+        if remote_tag in local_tags:
+            # tags with wrong commit
+            if remote_commit != local_tags[remote_tag]:
+                delete_remote_tag(remote_tag)
+
+        # leftover tags
+        else:
+            delete_remote_tag(remote_tag)
+
+    run('git push --tags origin', exit=True)

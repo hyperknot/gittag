@@ -4,7 +4,7 @@ import sys
 
 import click
 
-from .gittag import add_tag, get_remote_tags, delete_local_tag, delete_remote_tag, sync_tags_remote_to_local
+from .gittag import add_tag, delete_local_tag, delete_remote_tag, sync_local_to_remote, sync_remote_to_local
 
 
 @click.group()
@@ -31,10 +31,14 @@ def remove(tag):
 
 
 @main.command()
-def sync():
+@click.option('--local-to-remote', '--l2r', default=False, is_flag=True, help='Sync local to remote.')
+def sync(l2r):
     """Syncs git tags. Remote to local."""
 
-    sync_tags_remote_to_local()
+    if l2r:
+        sync_local_to_remote()
+    else:
+        sync_remote_to_local()
 
 
 if __name__ == "__main__":
