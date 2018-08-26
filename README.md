@@ -3,12 +3,22 @@
 Simply manage git tags.
 
 - local <> remote tag sync
-
 - semver version bump
-
 - no local state
 
 
+
+## Development
+
+1. Clone this repository locally.
+
+2. Install it via pip in development mode:
+
+    ```
+    pip install -e .
+    ```
+
+3. The command line program `gittag` will now always run the latest code in this folder.
 
 ## Authors
 
