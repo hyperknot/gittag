@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 with open('README.md') as readme_file:
     readme = readme_file.read()
 
-requirements = ['Click < 7', ]
+requirements = ['Click < 7', 'semantic_version < 3']
 
 setup_requirements = []
 

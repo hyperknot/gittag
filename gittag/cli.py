@@ -3,8 +3,9 @@
 import sys
 
 import click
+import semantic_version
 
-from .gittag import add_tag, delete_local_tag, delete_remote_tag, sync_local_to_remote, sync_remote_to_local
+from .gittag import add_tag, delete_local_tag, delete_remote_tag, get_semver_tags, sync_local_to_remote, sync_remote_to_local
 
 
 @click.group()
@@ -39,6 +40,21 @@ def sync(l2r):
         sync_local_to_remote()
     else:
         sync_remote_to_local()
+
+
+@main.command()
+@click.option('--prefix', '-p', help='Prefix for semver, like api_ for api_1.2.3')
+def bump(prefix):
+    """Bump a semver tag."""
+
+    tags = get_semver_tags(source='remote', prefix=prefix)
+    if tags:
+        latest_tag = tags[-1]
+    else:
+        latest_tag = semantic_version.Version('0.1.0')
+
+    print(latest_tag)
+
 
 
 if __name__ == "__main__":

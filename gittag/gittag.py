@@ -1,3 +1,5 @@
+import semantic_version
+
 from .utils import die, lstrip, rstrip, run
 
 
@@ -78,3 +80,30 @@ def sync_local_to_remote():
             delete_remote_tag(remote_tag)
 
     run('git push --tags origin', exit=True)
+
+
+def get_semver_tags(source, prefix=None):
+    if source == 'local':
+        tags = get_local_tags()
+    elif source == 'remote':
+        tags = get_remote_tags()
+    else:
+        raise ValueError('source should be local or remote')
+
+    svtags = list()
+
+    for tag in tags.keys():
+        if prefix:
+            if not tag.startswith(prefix):
+                continue
+            tag = lstrip(tag, prefix)
+
+        try:
+            svtag = semantic_version.Version(tag)
+            svtags.append(svtag)
+        except ValueError:
+            pass
+
+    svtags.sort()
+
+    return svtags
