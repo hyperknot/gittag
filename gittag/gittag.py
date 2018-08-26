@@ -1,4 +1,4 @@
-from .utils import run, die
+from .utils import die, lstrip, rstrip, run
 
 
 def add_tag(tag, force=False):
@@ -8,11 +8,56 @@ def add_tag(tag, force=False):
     run(f'git push origin {force_str} {tag}', exit=True)
 
 
-def remove_tag(tag):
-    r = run(f'git tag --delete {tag}', exit=False)
+def delete_local_tag(tag):
+    r = run(f'git tag --delete {tag}')
     if r.returncode != 0 and f"error: tag '{tag}' not found." not in r.stderr:
         die(r)
 
-    r = run(f'git push --delete origin {tag}', exit=False)
+
+def delete_local_tags(tags):
+    tags_str = ' '.join(tags)
+    run(f'git tag --delete {tags_str}', exit=True)
+
+
+def delete_remote_tag(tag):
+    r = run(f'git push --delete origin {tag}')
     if r.returncode != 0 and f"error: unable to delete '{tag}': remote ref does not exist" not in r.stderr:
         die(r)
+
+
+def get_local_tags():
+    r = run('git show-ref --tags --dereference', exit=False)
+
+    tags = dict()
+
+    for l in r.stdout.splitlines():
+        commit, tag = l.split()
+        tag = lstrip(tag, 'refs/tags/')
+        tag = rstrip(tag, '^{}')
+
+        tags[tag] = commit
+
+    return tags
+
+
+def get_remote_tags():
+    r = run('git ls-remote --tags', exit=True)
+
+    tags = dict()
+
+    for l in r.stdout.splitlines():
+        commit, tag = l.split()
+        tag = lstrip(tag, 'refs/tags/')
+        tag = rstrip(tag, '^{}')
+
+        tags[tag] = commit
+
+    return tags
+
+
+def sync_tags_remote_to_local():
+    local_tags = get_local_tags()
+
+    delete_local_tags(local_tags.keys())
+
+    run('git fetch --tags', exit=True)

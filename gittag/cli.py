@@ -4,7 +4,7 @@ import sys
 
 import click
 
-from .gittag import add_tag, remove_tag
+from .gittag import add_tag, get_remote_tags, delete_local_tag, delete_remote_tag, sync_tags_remote_to_local
 
 
 @click.group()
@@ -26,7 +26,15 @@ def add(tag):
 def remove(tag):
     """Remove a git tag. Local + remote."""
 
-    remove_tag(tag)
+    delete_local_tag(tag)
+    delete_remote_tag(tag)
+
+
+@main.command()
+def sync():
+    """Syncs git tags. Remote to local."""
+
+    sync_tags_remote_to_local()
 
 
 if __name__ == "__main__":
