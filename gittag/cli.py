@@ -4,7 +4,7 @@ import sys
 
 import click
 
-from .gittag import add_tag
+from .gittag import add_tag, remove_tag
 
 
 @click.group()
@@ -19,6 +19,14 @@ def add(tag):
     """Add a git tag to current revision. Moves tag if already present. Local + remote."""
 
     add_tag(tag, force=True)
+
+
+@main.command()
+@click.argument('tag')
+def remove(tag):
+    """Remove a git tag. Local + remote."""
+
+    remove_tag(tag)
 
 
 if __name__ == "__main__":

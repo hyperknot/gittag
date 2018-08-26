@@ -1,4 +1,4 @@
-from .utils import run
+from .utils import run, die
 
 
 def add_tag(tag, force=False):
@@ -8,6 +8,11 @@ def add_tag(tag, force=False):
     run(f'git push origin {force_str} {tag}', exit=True)
 
 
-def delete_tag(tag):
-    r = run(f'git push --delete origin {tag}')
-    print(r)
+def remove_tag(tag):
+    r = run(f'git tag --delete {tag}', exit=False)
+    if r.returncode != 0 and f"error: tag '{tag}' not found." not in r.stderr:
+        die(r)
+
+    r = run(f'git push --delete origin {tag}', exit=False)
+    if r.returncode != 0 and f"error: unable to delete '{tag}': remote ref does not exist" not in r.stderr:
+        die(r)

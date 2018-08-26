@@ -5,6 +5,7 @@ Simply manage git tags.
 - local <> remote tag sync
 - semver version bump
 - no local state
+- only lightweight tags
 
 Requires Python 3.5+
 
