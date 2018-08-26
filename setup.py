@@ -13,9 +13,8 @@ with open('HISTORY.rst') as history_file:
 
 requirements = ['Click>=6.0', ]
 
-setup_requirements = [ ]
+setup_requirements = []
 
-test_requirements = [ ]
 
 setup(
     author="Zsolt Ero",
@@ -47,8 +46,6 @@ setup(
     name='gittag',
     packages=find_packages(include=['gittag']),
     setup_requires=setup_requirements,
-    test_suite='tests',
-    tests_require=test_requirements,
     url='https://github.com/hyperknot/gittag',
     version='0.1.0',
     zip_safe=False,
