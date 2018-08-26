@@ -18,7 +18,7 @@ def main():
 def add(tag):
     """Add a git tag to current revision. Moves tag if already present. Local + remote."""
 
-    add_tag(tag)
+    add_tag(tag, force=True)
 
 
 if __name__ == "__main__":

@@ -24,7 +24,7 @@ Requires Python 3.5+
 
 * **Zsolt Ero** (https://hyperknot.com)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/hyperknot/gittag/graphs/contributors) who participated in this project.
 
 
 

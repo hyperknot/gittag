@@ -3,7 +3,7 @@ import sys
 
 
 def run(command, exit=False):
-    args = command.split(' ')
+    args = command.split()
     r = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
     if exit and (r.returncode != 0):
