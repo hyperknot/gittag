@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
 
-"""Console script for gittag."""
 import sys
 import click
 
 
-@click.command()
+@click.group()
 def main(args=None):
     """Console script for gittag."""
-    click.echo("Replace this message by putting your code into "
-               "gittag.cli.main")
-    click.echo("See click documentation at http://click.pocoo.org/")
     return 0
 
 
+@main.command()
+def add():
+    """Add a git tag to current revision. Moves tag if already present. Local + remote."""
+
+
+
 if __name__ == "__main__":
-    sys.exit(main())  # pragma: no cover
+    sys.exit(main())
