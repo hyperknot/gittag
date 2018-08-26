@@ -6,7 +6,7 @@ Simply manage git tags.
 - semver version bump
 - no local state
 
-
+Requires Python 3.5+
 
 ## Development
 
