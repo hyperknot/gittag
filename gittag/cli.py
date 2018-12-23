@@ -5,7 +5,17 @@ import sys
 import click
 import semantic_version
 
-from .gittag import add_tag, delete_local_tag, delete_remote_tag, get_semver_tags, sync_local_to_remote, sync_remote_to_local
+if sys.version_info[0] < 3 or sys.version_info[1] < 5:
+    sys.exit('gittag requires Python 3.5+')
+
+from .gittag import (
+    add_tag,
+    delete_local_tag,
+    delete_remote_tag,
+    get_semver_tags,
+    sync_local_to_remote,
+    sync_remote_to_local,
+)  # noqa
 
 
 @click.group()
@@ -16,10 +26,11 @@ def main():
 
 @main.command()
 @click.argument('tag')
-def add(tag):
+@click.option('--force', '-f', default=False, is_flag=True, help='Override existing tag.')
+def add(tag, force):
     """Add a git tag to current revision. Moves tag if already present. Local + remote."""
 
-    add_tag(tag, force=True)
+    add_tag(tag, force)
 
 
 @main.command()
@@ -32,7 +43,9 @@ def remove(tag):
 
 
 @main.command()
-@click.option('--local-to-remote', '--l2r', default=False, is_flag=True, help='Sync local to remote.')
+@click.option(
+    '--local-to-remote', '--l2r', default=False, is_flag=True, help='Sync local to remote.'
+)
 def sync(l2r):
     """Syncs git tags. Remote to local."""
 
@@ -56,6 +69,8 @@ def bump(prefix):
     print(latest_tag)
 
 
-
 if __name__ == "__main__":
+    if sys.version_info[0] < 3 or sys.version_info[1] < 5:
+        raise Exception("Must be using Python 3.5+")
+
     sys.exit(main())

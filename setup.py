@@ -27,11 +27,7 @@ setup(
         'Programming Language :: Python :: 3.7',
     ],
     description="Simply manage git tags.",
-    entry_points={
-        'console_scripts': [
-            'gittag=gittag.cli:main',
-        ],
-    },
+    entry_points={'console_scripts': ['gittag=gittag.cli:main']},
     install_requires=requirements,
     license="MIT license",
     long_description=readme,
@@ -44,4 +40,5 @@ setup(
     url='https://github.com/hyperknot/gittag',
     version='0.1.0',
     zip_safe=False,
+    python_requires=">=3.5",
 )

@@ -23,7 +23,10 @@ def delete_local_tags(tags):
 
 def delete_remote_tag(tag):
     r = run(f'git push --delete origin {tag}')
-    if r.returncode != 0 and f"error: unable to delete '{tag}': remote ref does not exist" not in r.stderr:
+    if (
+        r.returncode != 0
+        and f"error: unable to delete '{tag}': remote ref does not exist" not in r.stderr
+    ):
         die(r)
 
 
