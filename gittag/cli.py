@@ -46,10 +46,10 @@ def remove(tag):
 @click.option(
     '--local-to-remote', '--l2r', default=False, is_flag=True, help='Sync local to remote.'
 )
-def sync(l2r):
+def sync(local_to_remote):
     """Syncs git tags. Remote to local."""
 
-    if l2r:
+    if local_to_remote:
         sync_local_to_remote()
     else:
         sync_remote_to_local()
