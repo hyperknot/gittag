@@ -11,7 +11,7 @@ if sys.version_info[0] < 3 or sys.version_info[1] < 5:
 from .gittag import (
     add_tag,
     delete_local_tag,
-    delete_remote_tag,
+    delete_remote_tags,
     get_semver_tags,
     sync_local_to_remote,
     sync_remote_to_local,
@@ -39,7 +39,7 @@ def remove(tag):
     """Remove a git tag. Local + remote."""
 
     delete_local_tag(tag)
-    delete_remote_tag(tag)
+    delete_remote_tags([tag])
 
 
 @main.command()

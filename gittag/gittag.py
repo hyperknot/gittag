@@ -21,11 +21,18 @@ def delete_local_tags(tags):
     run(f'git tag --delete {tags_str}', exit=True)
 
 
-def delete_remote_tag(tag):
-    r = run(f'git push --delete origin {tag}')
+def delete_remote_tags(tags):
+    if not tags:
+        return
+
+    print(f'deleting remote tags {tags}')
+
+    tags_str = ' '.join(tags)
+
+    r = run(f'git push --delete origin {tags_str}')
     if (
         r.returncode != 0
-        and f"error: unable to delete '{tag}': remote ref does not exist" not in r.stderr
+        and f"error: unable to delete '{tags_str}': remote ref does not exist" not in r.stderr
     ):
         die(r)
 
@@ -72,16 +79,18 @@ def sync_local_to_remote():
     remote_tags = get_remote_tags()
     local_tags = get_local_tags()
 
+    tags_to_delete = set()
     for remote_tag, remote_commit in remote_tags.items():
         if remote_tag in local_tags:
             # tags with wrong commit
             if remote_commit != local_tags[remote_tag]:
-                delete_remote_tag(remote_tag)
+                tags_to_delete.add(remote_tag)
 
         # leftover tags
         else:
-            delete_remote_tag(remote_tag)
+            tags_to_delete.add(remote_tag)
 
+    delete_remote_tags(tags_to_delete)
     run('git push --tags origin', exit=True)
 
 
